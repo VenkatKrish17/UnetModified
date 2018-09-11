@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 import os
 import skimage.io as io
 import skimage.transform as trans
@@ -10,7 +10,7 @@ from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras import backend as keras
 
 
-def unet(pretrained_weights = None,input_size = (256,256,1)):
+def unet(pretrained_weights = None,input_size = (64,64,1)):
     inputs = Input(input_size)
     conv1 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(inputs)
     conv1 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv1)
@@ -55,12 +55,10 @@ def unet(pretrained_weights = None,input_size = (256,256,1)):
     model = Model(input = inputs, output = conv10)
 
     model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
-    
+
     #model.summary()
 
     if(pretrained_weights):
     	model.load_weights(pretrained_weights)
 
     return model
-
-
